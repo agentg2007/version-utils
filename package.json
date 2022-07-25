@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "Version Utilities",
 	"main": "index.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"build": "npx tsc",
 		"prepublish": "npm run build"
