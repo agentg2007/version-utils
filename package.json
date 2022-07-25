@@ -1,0 +1,32 @@
+{
+	"name": "@nthity/version-utils",
+	"version": "1.0.0",
+	"description": "Version Utilities",
+	"main": "index.js",
+	"scripts": {
+		"build": "npx tsc",
+		"prepublish": "npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/agentg2007/version-utils.git"
+	},
+	"keywords": [
+		"Version",
+		"Utilities"
+	],
+	"author": "agentg2007",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/agentg2007/version-utils/issues"
+	},
+	"homepage": "https://github.com/agentg2007/version-utils#readme",
+	"dependencies": {
+		"typescript": "^4.7.4"
+	},
+	"files": [
+		"LICENSE.md",
+		"README.md",
+		"index.js"
+	]
+}
