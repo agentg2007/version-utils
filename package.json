@@ -23,14 +23,14 @@
 		"url": "https://github.com/agentg2007/version-utils/issues"
 	},
 	"homepage": "https://github.com/agentg2007/version-utils#readme",
-	"dependencies": {
-		"typescript": "^4.7.4"
-	},
 	"files": [
 		"LICENSE",
 		"README.md",
 		"index.js",
 		"index.d.ts",
 		"index.d.ts.map"
-	]
+	],
+	"devDependencies": {
+		"typescript": "^4.8.2"
+	}
 }
