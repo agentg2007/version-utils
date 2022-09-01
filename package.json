@@ -1,8 +1,7 @@
 {
 	"name": "@nthity/version-utils",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Version Utilities",
-	"main": "index.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -15,8 +14,8 @@
 		"url": "git+https://github.com/agentg2007/version-utils.git"
 	},
 	"keywords": [
-		"Version",
-		"Utilities"
+		"version",
+		"utilities"
 	],
 	"author": "agentg2007",
 	"license": "MIT",
@@ -28,8 +27,10 @@
 		"typescript": "^4.7.4"
 	},
 	"files": [
-		"LICENSE.md",
+		"LICENSE",
 		"README.md",
-		"index.js"
+		"index.js",
+		"index.d.ts",
+		"index.d.ts.map"
 	]
 }
