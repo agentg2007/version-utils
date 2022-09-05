@@ -1,6 +1,6 @@
 {
 	"name": "@nthity/version-utils",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Version Utilities",
 	"publishConfig": {
 		"access": "public"
