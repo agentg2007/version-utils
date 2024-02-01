@@ -1,3 +1,4 @@
+export type VersionCompareResult = "higher" | "lower" | "equal" | "invalid";
 class Version implements IVersion {
     constructor(
         public major: number,
@@ -6,6 +7,30 @@ class Version implements IVersion {
         public build: number
     ) { }
 
+    /**
+     * 
+     * @param version Version to compare.
+     * @returns 
+     * * "higher" if current version > compared version
+     * * "lower" if current version < compared version
+     * * "invalid" if the compared version is not an IVersion instance.
+     * * otherwise "equal".
+     */
+    compare(version: IVersion): VersionCompareResult {
+        if (!isVersion(version)) return "invalid"
+        const v1: any = this;
+        const v2: any = version;
+        const keys = ["major", "minor", "patch", "build"];
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if ((v1[key] ?? 0) > (v2[key] ?? 0)) {
+                return "higher";
+            } else if ((v1[key] ?? 0) < (v2[key] ?? 0)) {
+                return "lower"
+            }
+        }
+        return "equal";
+    }
     toString() {
         return `${this.major}.${this.minor}.${this.patch}`;
     }
@@ -15,6 +40,7 @@ export interface IVersion {
     minor: number;
     patch: number;
     build: number;
+    compare(version: IVersion): VersionCompareResult;
     toString(): string;
 };
 export const Version0 = parse("0.0.0");
@@ -27,7 +53,7 @@ Object.freeze(Version0);
  * @param value String to test.
  * @returns boolean
  */
-export function test(value: string): boolean {
+export function test(value: any): boolean {
     const pattern = /^([1-9]\d*|0)(\.(([1-9]\d*)|0)){0,3}$/;
     return typeof value === "string" && pattern.test(value);
 }
@@ -60,4 +86,45 @@ export function increment(
 ): IVersion {
     version[target] += 1;
     return version;
+};
+/**
+ * Method to try parsing the value to a version.
+ * @param value Value to parse.
+ * @param callback If value is valid, returns the version value.
+ * @returns boolean
+ */
+export function tryParse(value: any, callback: (value: IVersion) => void): boolean {
+    if (test(value)) {
+        callback(parse(value));
+        return true;
+    } else if (isVersion(value)) {
+        callback(value);
+        return true;
+    } else return false;
+}
+/**
+ * Checks if the object is an instance of IVersion.
+ * @param value Value to check.
+ * @returns boolean
+ */
+export function isVersion(value: any): value is IVersion {
+    if (value == null
+        || typeof value !== "object"
+        || !isNumber(value.major)
+        || !isNumber(value.minor)
+    ) return false;
+
+    return ["patch", "build"].every(i => value[i] == null || isNumber(value[i]));
+
+    function isNumber(value: any) {
+        return typeof value === "number" && value >= 0;
+    }
+}
+
+export default {
+    increment,
+    isVersion,
+    parse,
+    test,
+    tryParse,
 }
