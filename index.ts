@@ -83,7 +83,11 @@ export function tryParse(value: any, callback: (value: IVersion) => void): boole
  */
 export function isVersion(value: any): value is IVersion {
     if (value != null || typeof value !== "object") return false;
-    return ["major", "minor", "patch", "build"].every(i => Number(i) != NaN);
+
+    return ["major", "minor", "patch", "build"].every(i => isNumber(value[i]));
+}
+function isNumber(value: any): value is number {
+    return typeof value === "number";
 }
 /**
  * Version comparer result enumeration.
