@@ -21,7 +21,6 @@ export const Version0 = parse("0.0.0");
 Object.seal(Version0);
 Object.freeze(Version0);
 
-const pattern = /^([1-9]\d*|0)(\.(([1-9]\d*)|0)){0,3}$/;
 
 /**
  * Test's if the string value met the criteria.
@@ -29,6 +28,7 @@ const pattern = /^([1-9]\d*|0)(\.(([1-9]\d*)|0)){0,3}$/;
  * @returns boolean
  */
 export function test(value: any): boolean {
+    const pattern = /^([1-9]\d*|0)(\.(([1-9]\d*)|0)){0,3}$/;
     return typeof value === "string" && pattern.test(value);
 }
 /**
