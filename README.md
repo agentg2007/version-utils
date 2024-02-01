@@ -17,6 +17,10 @@ npm i @nthity/version-utils
 | patch | integer   |
 | build | integer   |
 
+## Change Log
+
+[See change log.](./CHANGELOG.md)
+
 ## Methods
 
 ### compare

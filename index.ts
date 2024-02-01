@@ -1,3 +1,4 @@
+export type VersionCompareResult = "higher" | "lower" | "equal" | "invalid";
 class Version implements IVersion {
     constructor(
         public major: number,
@@ -6,6 +7,30 @@ class Version implements IVersion {
         public build: number
     ) { }
 
+    /**
+     * 
+     * @param version Version to compare.
+     * @returns 
+     * * "higher" if current version > compared version
+     * * "lower" if current version < compared version
+     * * "invalid" if the compared version is not an IVersion instance.
+     * * otherwise "equal".
+     */
+    compare(version: IVersion): VersionCompareResult {
+        if (!isVersion(version)) return "invalid"
+        const v1: any = this;
+        const v2: any = version;
+        const keys = ["major", "minor", "patch", "build"];
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if ((v1[key] ?? 0) > (v2[key] ?? 0)) {
+                return "higher";
+            } else if ((v1[key] ?? 0) < (v2[key] ?? 0)) {
+                return "lower"
+            }
+        }
+        return "equal";
+    }
     toString() {
         return `${this.major}.${this.minor}.${this.patch}`;
     }
@@ -15,6 +40,7 @@ export interface IVersion {
     minor: number;
     patch: number;
     build: number;
+    compare(version: IVersion): VersionCompareResult;
     toString(): string;
 };
 export const Version0 = parse("0.0.0");
@@ -82,35 +108,23 @@ export function tryParse(value: any, callback: (value: IVersion) => void): boole
  * @returns boolean
  */
 export function isVersion(value: any): value is IVersion {
-    if (value != null || typeof value !== "object") return false;
+    if (value != null
+        || typeof value !== "object"
+        || !isNumber(value.major)
+        || !isNumber(value.minor)
+    ) return false;
 
-    return ["major", "minor", "patch", "build"].every(i => isNumber(value[i]));
+    return ["patch", "build"].every(i => value[i] == null || isNumber(value[i]));
+
+    function isNumber(value: any) {
+        return typeof value === "number" && value >= 0;
+    }
 }
-function isNumber(value: any): value is number {
-    return typeof value === "number";
-}
-/**
- * Version comparer result enumeration.
- */
-export type VersionCompareResult = "higher" | "lower" | "equal" | "invalid";
-/**
- * 
- * @param version Source version.
- * @param compareTo Version to compare.
- * @returns "higher" if version > compareTo, "lower" if version < compareTo, otherwise "equal". If either version or compareTo is not parsable to IVersion, it returns "invalid".
- */
-export function compare(version: any, compareTo: any): VersionCompareResult {
-    let v1: any = {}, v2: any = {};
-    if (tryParse(version, i => v1 = i) && tryParse(compareTo, i => v2 = i)) {
-        const keys = ["major", "minor", "patch", "build"];
-        for (let i = 0; i < keys.length; i++) {
-            const k = keys[i];
-            if (v1[k] > v2[k]) {
-                return "higher";
-            } else if (v1[k] < v2[k]) {
-                return "lower"
-            }
-        }
-        return "equal";
-    } else return "invalid";
+
+export default {
+    increment,
+    isVersion,
+    parse,
+    test,
+    tryParse,
 }
